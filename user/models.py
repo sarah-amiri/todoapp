@@ -24,8 +24,10 @@ class User(AbstractBaseUser, PermissionsMixin):
         db_table = 'users'
 
     def save(self, *args, **kwargs):
-        if not self.password:
-            raise ValueError('password must be set')
+        if not self.pk:
+            if not self.password:
+                raise ValueError('password must be set')
 
-        self.set_password(self.password)
+            self.set_password(self.password)
+
         return super().save(*args, **kwargs)
